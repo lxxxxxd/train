@@ -3,18 +3,17 @@
  *作者：刘小东
 */
 #include "link_list.h"
+#include "type.h"
+#include "status.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
 
-#define POINTER_LENGTH 4
-
 static inline void * getNext(LinkedList *list,void *node)
 {
     unsigned char *bytes = (unsigned char *)node;
-    void *next = NULL;
     bytes+=list->cellSize;
-    memcpy(&next,bytes,POINTER_LENGTH);
+    void *next = *((void **)bytes);
     return next;
 }
 
@@ -22,7 +21,8 @@ static inline void setNext(LinkedList *list,void *node,void *next)
 {
     unsigned char *bytes = (unsigned char *)node;
     bytes+=list->cellSize;
-    memcpy(bytes,&next,POINTER_LENGTH);
+    void **nextFild = (void **)bytes;
+    *nextFild = next;
 }
 
 static inline void setElem(LinkedList *list,void *node,void *elem)
@@ -37,17 +37,19 @@ void InitLinkedList(LinkedList *list, int cellSize)
     list->listSize = 0;
 }
 
-void Destroy(LinkedList *list)
+void ListDestroy(LinkedList *list)
 {
-    void *current = getNext(list,list->header);
+    void *current = list->header;
     for(int i=0;i<list->listSize;i++) {
-        void *next = getNext(list,current);
+        void * next = getNext(list,current);
         free(current);
         current = next;
+        list->listSize--;
     }
+    list->header = NULL;
 }
 
-boolean IsEmpty(LinkedList *list)
+boolean IsListEmpty(LinkedList *list)
 {
     if(list->header == NULL) {
         return true;
@@ -56,102 +58,92 @@ boolean IsEmpty(LinkedList *list)
     }
 }
 
-void GetElem(LinkedList *list,int i,void * elem)
+Status GetListElem(LinkedList *list,int i,void ** elem)
 {
-    if(i<=0 ||i>=list->listSize) {
+    if(i<0 ||i>=list->listSize) {
         printf("GetElem out of range.\n");
-        return;
+        return OUT_RNAGE_ERROR;
     }
-    void * next = getNext(list,list->header);
+    void * next = list->header;
     int j=0;
     for(;j<list->listSize;j++) {
-        next = getNext(list,next);
         if(j==i) {
-            elem = next;
+            *elem = next;
+            break;
         }
+        next = getNext(list,next);
     }
     if(j == list->listSize){
-        elem = NULL;
+        *elem = NULL;
+        return NOT_FOUND_ELEM_ERROR;
     }
-    return;
+    return SUCCESS;
 }
 
-int ContainElem(LinkedList *list, void * elem)
+int ContainListElem(LinkedList *list, void * elem)
 {
-    void * next = getNext(list,list->header);
+    if(elem == NULL) {
+        return NONE_POINTOR_ERROR;
+    }
+    void * next = list->header;
     for(int i=0;i<list->listSize;i++) {
-        next = getNext(list,next);
         if(memcmp(next,elem,list->cellSize) == 0) {
             return i;
         }
-    }
-    return -1;
-}
-void InsertElem(LinkedList *list, int i, void * elem)
-{
-    if(i < 0) {
-        printf("InsertElem index <=0 .\n");
-        return;
-    }
-    if(list->header == NULL || i == 0) {
-        void *node = malloc(list->cellSize+sizeof(void*));
-        memcpy(node,elem,list->cellSize);
-        setNext(list,node,list->header);
-        list->listSize++;
-        list->header = node;
-        return;
-    }
-    void * next = list->header;
-    void * pre = next;
-    for(int j=0;j<list->listSize;j++) {
         next = getNext(list,next);
-        if(j == i) {
-            break;
-        }
-        pre = next;
     }
+    return NOT_FOUND_ELEM_ERROR;
+}
+void AddListElem(LinkedList *list,void * elem)
+{
     void *node = malloc(list->cellSize+sizeof(void*));
     memcpy(node,elem,list->cellSize);
-    setNext(list,node,next);
-    setNext(list,pre,node);
+    setNext(list,node,list->header);
     list->listSize++;
+    list->header = node;
     return;
 }
 
-void DeleteElem(LinkedList *list, int i)
+Status DeleteListElem(LinkedList *list, int i)
 {
     if(i<0 || i>list->listSize) {
         printf("DeleteElem out of range.\n");
+        return OUT_RNAGE_ERROR;
     }
-    void * next = getNext(list,list->header);
+    void * next = list->header;
     void * pre = next;
-    for(int j=0;j<list->listSize;j++) {
-        next = getNext(list,next);
+    int j=0;
+    for(;j<list->listSize;j++) {
         if(j == i) {
             break;
         }
         pre = next;
+        next = getNext(list,next);
     }
     setNext(list,pre,getNext(list,next));
     free(next);
+    list->listSize--;
+    return SUCCESS;
 }
 
-void ModifyElem(LinkedList *list, int i, void * elem)
+Status ModifyListElem(LinkedList *list, int i, void * elem)
 {
     if(i<0 || i>list->listSize) {
         printf("ModifyElem out of range.\n");
+        return OUT_RNAGE_ERROR;
     }
-    void *next = getNext(list,list->header);
+    void *next = list->header;
     for(int j=0;j<list->listSize;j++) {
-        next = getNext(list,next);
         if(j == i) {
             break;
         }
+        next = getNext(list,next);
     }
     setElem(list,next,elem);
+    return SUCCESS;
 }
 
-int  Length(LinkedList *list)
+int  ListLength(LinkedList *list)
 {
     return list->listSize;
 }

@@ -4,6 +4,8 @@
  */
 
 #include "vector.h"
+#include "type.h"
+#include "status.h"
 #include <stdio.h>
 #include <memory.h>
 #include <stdlib.h>

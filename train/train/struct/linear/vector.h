@@ -3,10 +3,8 @@
  * 作者：刘小东
  */
 
-#define boolean unsigned char
-#define true 1
-#define false 0
 #define DEFAULT_CAPACITY 5
+#include "type.h"
 
 typedef struct Vector {
     void * cellArray;

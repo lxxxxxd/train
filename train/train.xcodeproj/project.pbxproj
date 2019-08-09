@@ -27,6 +27,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1401E52722FD560200B95897 /* type.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = type.h; path = struct/linear/type.h; sourceTree = "<group>"; };
+		1401E52822FD560300B95897 /* status.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = status.h; path = struct/linear/status.h; sourceTree = "<group>"; };
 		149CC00222EBD7870063D343 /* train */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = train; sourceTree = BUILT_PRODUCTS_DIR; };
 		149CC00522EBD7870063D343 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		14FCDA0622F96B6800A27C7F /* link_list.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = link_list.c; path = struct/linear/link_list.c; sourceTree = "<group>"; };
@@ -79,6 +81,8 @@
 		14FCDA0522F96B1C00A27C7F /* struct */ = {
 			isa = PBXGroup;
 			children = (
+				1401E52822FD560300B95897 /* status.h */,
+				1401E52722FD560200B95897 /* type.h */,
 				14FCDA0A22F96B8B00A27C7F /* vector.c */,
 				14FCDA0922F96B8B00A27C7F /* vector.h */,
 				14FCDA0622F96B6800A27C7F /* link_list.c */,

@@ -3,10 +3,10 @@
  *作者：刘小东
 */
 
-#define boolean unsigned char
-#define true 1
-#define false 0
+#define POINTER_LENGTH 4
 
+#include "type.h"
+#include "status.h"
 
 typedef struct LinkedList {
     void *header;
@@ -15,11 +15,11 @@ typedef struct LinkedList {
 }LinkedList;
 
 void InitLinkedList(LinkedList *list, int cellSize);
-boolean IsEmpty(LinkedList *list);
-void Destroy(LinkedList *list);
-void GetElem(LinkedList *list,int i,void * elem);
-int ContainElem(LinkedList *list, void * elem);
-void InsertElem(LinkedList *list, int i, void * elem);
-void DeleteElem(LinkedList *list, int i);
-void ModifyElem(LinkedList *list, int i, void * elem);
-int  Length(LinkedList *list);
+boolean IsListEmpty(LinkedList *list);
+void ListDestroy(LinkedList *list);
+Status GetListElem(LinkedList *list,int i,void ** elem);
+int ContainListElem(LinkedList *list, void * elem);
+void AddListElem(LinkedList *list,void * elem);
+Status DeleteListElem(LinkedList *list, int i);
+Status ModifyListElem(LinkedList *list, int i, void * elem);
+int  ListLength(LinkedList *list);
