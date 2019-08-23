@@ -15,6 +15,7 @@ typedef enum {
     NOT_FOUND_ELEM_ERROR = ERROR_START,  //
     NONE_POINTOR_ERROR,
     OUT_RNAGE_ERROR,
+    OVER_FLOW_ERROR,
 }Status;
 
 #endif /* status_h */

@@ -10,6 +10,8 @@
 #define type_h
 
 #define boolean unsigned char
+#define byte unsigned char
+
 #define true 1
 #define false 0
 

@@ -8,10 +8,12 @@
 
 #include "vector_test.h"
 #include "linked_list_test.h"
+#include "static_list_test.h"
 #include <stdio.h>
 
 int main(int argc, const char * argv[])
 {
-    VectorTest();
-    LinkedListTest();
+    //VectorTest();
+    //LinkedListTest();
+    StaticListTest();
 }
